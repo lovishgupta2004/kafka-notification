@@ -10,6 +10,6 @@ public class NotificationConsumer {
         groupId = "notification-group"
     )
     public void consumeNotification(String message){
-        System.out.println("Recieved Notification: "+message);
+        System.out.println("Recieved: "+message);
     }
 }

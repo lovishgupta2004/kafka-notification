@@ -10,13 +10,15 @@ import com.lovish.kafka_notification.Service.NotificationProducer;
 @RestController 
 @RequestMapping ("/notifications")
 public class NotificationController {
-    private final NotificationProducer NotificationProducer;
-    public NotificationController(NotificationProducer NotificationProducer){
-        this.NotificationProducer=NotificationProducer;
+    private final NotificationProducer producer;
+    public NotificationController(NotificationProducer producer) {
+        this.producer = producer;
     }
-    @PostMapping 
-    public String sendNotification(@RequestParam String message){
-        NotificationProducer.sendNotification(message);
+    @PostMapping
+    public String sendNotification(
+            @RequestParam String type,
+            @RequestParam String message) {
+        producer.sendNotification(type, message);
         return "Notification sent successfully!";
     }
 }
