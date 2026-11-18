@@ -262,3 +262,54 @@ docker compose down
 -   **Offset:** Tracks a consumer group's position in a partition.
 -   **Rebalancing:** Kafka redistributes partition assignments when
     consumers in a group join or leave.
+
+
+
+
+1. Start Kafka using Docker Compose
+docker compose up -d
+
+
+Check running container:
+docker ps
+
+
+2. Create the notifications topic with 2 partitions
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --create --topic notifications --partitions 2 --replication-factor 1 --bootstrap-server localhost:9092
+
+
+If the topic already exists, Kafka will show Topic already exists. In that case, use:
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --alter --topic notifications --partitions 2 --bootstrap-server localhost:9092
+
+
+3. Verify topic and partitions
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --describe --topic notifications --bootstrap-server localhost:9092
+
+
+Expected: PartitionCount: 2
+4. Start Consumer Group 1
+Open a new PowerShell terminal:
+docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic notifications --group group-1
+
+
+5. Add second consumer to Group 1
+Open another PowerShell terminal:
+docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic notifications --group group-1
+
+
+6. Start Consumer Group 2
+Open another PowerShell terminal:
+docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic notifications --group group-2
+
+
+7. Verify consumer groups
+docker exec -it kafka /opt/kafka/bin/kafka-consumer-groups.sh --list --bootstrap-server localhost:9092
+
+
+8. Check consumer group partition assignments
+For Group 1:
+docker exec -it kafka /opt/kafka/bin/kafka-consumer-groups.sh --describe --group group-1 --bootstrap-server localhost:9092
+
+
+For Group 2:
+docker exec -it kafka /opt/kafka/bin/kafka-consumer-groups.sh --describe --group group-2 --bootstrap-server localhos
