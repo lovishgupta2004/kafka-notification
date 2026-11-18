@@ -312,4 +312,4 @@ docker exec -it kafka /opt/kafka/bin/kafka-consumer-groups.sh --describe --group
 
 
 For Group 2:
-docker exec -it kafka /opt/kafka/bin/kafka-consumer-groups.sh --describe --group group-2 --bootstrap-server localhos
+docker exec -it kafka /opt/kafka/bin/kafka-consumer-groups.sh --describe --group group-2 --bootstrap-server localhost:9092
